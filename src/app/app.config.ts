@@ -1,9 +1,23 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+// src/app/app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, Routes } from '@angular/router';
+import { ControleEditoraService } from './controle-editora.service';
+import { ControleLivrosService } from './controle-livros.service';
+import { LivroListaComponent } from './livro-lista/livro-lista.component';
+import { LivroDadosComponent } from './livro-dados/livro-dados.component';
 
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+const routes: Routes = [
+  { path: 'lista', component: LivroListaComponent },
+  { path: 'dados', component: LivroDadosComponent },
+  { path: '', redirectTo: '/lista', pathMatch: 'full' }
+];
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration()]
+  providers: [
+    provideHttpClient(),
+    provideRouter(routes),
+    ControleEditoraService,
+    ControleLivrosService
+  ]
 };
